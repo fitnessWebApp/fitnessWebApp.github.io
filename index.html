@@ -1,14 +1,59 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="firebase-ui-auth.css" />
+<script src="firebase.js"></script>
+<script src="firebase-auth.js"></script>
+<script src="firebase-database.js"></script>
+
+<!-- Connect til firebase database................................................................ -->
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBNf-nV7NMvllv8g2gRdQczUAglltmbx7I",
+    authDomain: "fitnesswebapp-76ab8.firebaseapp.com",
+    databaseURL: "https://fitnesswebapp-76ab8-default-rtdb.firebaseio.com",
+    projectId: "fitnesswebapp-76ab8",
+    storageBucket: "fitnesswebapp-76ab8.appspot.com",
+    messagingSenderId: "901944231738",
+    appId: "1:901944231738:web:8e61d151d9eec8cc373203"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+ui.start('#firebaseui-auth-container', {
+    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+  signInFlow: 'popup',
+  signInSuccessUrl: 'http://127.0.0.1:57015/',
+  signInOptions: [
+    // List of OAuth providers supported.
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
+});
+
+
+</script>
+
+
+
 <body>
+
+
+  <!-- Her starter angular js div............................................................... -->
 
 <div ng-app="myApp" ng-controller="myCtrl">
 
+  <div id="firebaseui-auth-container"> </div>
 
 <h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
 
-<!--UGE OVERSIGT ......................................................................................... -->
+<!--UGE OVERSIGT  -->
   <table border="1" style="width:100%">
     <tr>
       <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
@@ -21,7 +66,7 @@
 
   <br/>
 
-  <!--TRÆNINGS VALG .........................................................................................-->
+  <!--TRÆNINGS VALG -->
 
 
   <table border="1">
