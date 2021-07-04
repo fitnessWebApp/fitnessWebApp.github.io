@@ -27,17 +27,15 @@
   // Initialize the FirebaseUI Widget using Firebase.
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-ui.start('#firebaseui-auth-container', {
+  ui.start('#firebaseui-auth-container', {
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-  signInFlow: 'popup',
-  signInSuccessUrl: 'http://127.0.0.1:57015/',
-  signInOptions: [
-    // List of OAuth providers supported.
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  ],
-});
-
-
+    signInFlow: 'popup',
+    signInSuccessUrl: 'https://fitnesswebapp.github.io/',
+    signInOptions: [
+      // List of OAuth providers supported.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    ],
+  });
 </script>
 
 
@@ -47,88 +45,89 @@ ui.start('#firebaseui-auth-container', {
 
   <!-- Her starter angular js div............................................................... -->
 
-<div ng-app="myApp" ng-controller="myCtrl">
+  <div ng-app="myApp" ng-controller="myCtrl">
 
-  <div id="firebaseui-auth-container"> </div>
+    <div id="firebaseui-auth-container"> </div>
 
-<h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
+    <h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
 
-<!--UGE OVERSIGT  -->
-  <table border="1" style="width:100%">
-    <tr>
-      <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
-    </tr>
-    <tr data-ng-repeat="modul in moduler">
-      <td data-ng-repeat="dag in dage">{{modul}}</td>
-    </tr>
-  </table>
-
-
-  <br/>
-
-  <!--TRÆNINGS VALG -->
+    <!--UGE OVERSIGT  -->
+    <table border="1" style="width:100%">
+      <tr>
+        <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
+      </tr>
+      <tr data-ng-repeat="modul in moduler">
+        <td data-ng-repeat="dag in dage">{{modul}}</td>
+      </tr>
+    </table>
 
 
-  <table border="1">
-    <tr>
-      <th>I DAG (tryk for at slette træning):</th>
-      <th>Valg (tryk på valgt træning):</th>
-    </tr>
+    <br />
 
-    <tr data-ng-repeat="modul in moduler">
-      <td ng-click="sletValg($index)"><span >{{valg[$index]}}</span></td>
-      <td ng-click="addValg(modul,$index)" ><span >{{modul}}</span></td>
-    </tr>
-
-    <tr>
-      <td colspan=2 align="right" style="background-color:grey">
-        <input ng-model="addMe">
-        <button ng-click="addItem()">Add</button>
-      </td>
-    </tr>
-
-  </table>
+    <!--TRÆNINGS VALG -->
 
 
+    <table border="1">
+      <tr>
+        <th>I DAG (tryk for at slette træning):</th>
+        <th>Valg (tryk på valgt træning):</th>
+      </tr>
+
+      <tr data-ng-repeat="modul in moduler">
+        <td ng-click="sletValg($index)"><span>{{valg[$index]}}</span></td>
+        <td ng-click="addValg(modul,$index)"><span>{{modul}}</span></td>
+      </tr>
+
+      <tr>
+        <td colspan=2 align="right" style="background-color:grey">
+          <input ng-model="addMe">
+          <button ng-click="addItem()">Add</button>
+        </td>
+      </tr>
+
+    </table>
 
 
-</div>
+
+
+  </div>
 
 
   <!--ANGULAR MODULE .........................................................................................-->
 
 
-<script>
-var app = angular.module("myApp", []);
+  <script>
+    var app = angular.module("myApp", []);
 
-app.controller("myCtrl", function($scope) {
+    app.controller("myCtrl", function($scope) {
 
-  $scope.dage  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      $scope.dage = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  $scope.moduler = ["mave - 10min","bryst","lår","ro","ryg","boks","løb"];
+      $scope.moduler = ["mave - 10min", "bryst", "lår", "ro", "ryg", "boks", "løb"];
 
-  $scope.valg = [];
+      $scope.valg = [];
 
-  $scope.today = new Date();
+      $scope.today = new Date();
 
-  $scope.idag = function(dag){
-    let d = new Date();
-    return dag == $scope.dage[d.getDay()]? "lightgreen" : "lightblue";
-  }
+      $scope.idag = function(dag) {
+        let d = new Date();
+        return dag == $scope.dage[d.getDay()] ? "lightgreen" : "lightblue";
+      }
 
 
 
-  $scope.addValg = function(valg,index){
-    $scope.valg[index]=valg;
-  }
+      $scope.addValg = function(valg, index) {
+        $scope.valg[index] = valg;
+      }
 
-  $scope.sletValg= function(index){
-    $scope.valg[index]="";
-  }
+      $scope.sletValg = function(index) {
+        $scope.valg[index] = "";
+      }
 
-});
-</script>
+    });
+  </script>
 
 
 </body>
+
 </html>
