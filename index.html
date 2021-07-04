@@ -11,7 +11,7 @@
 
   <table border="1" style="width:100%">
     <tr>
-      <th data-ng-repeat="dag in dage">{{dag}}</th>
+      <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
     </tr>
     <tr data-ng-repeat="modul in moduler">
       <td data-ng-repeat="dag in dage">{{modul}}</td>
@@ -31,14 +31,19 @@
       <td >{{modul}}</td>
     </tr>
   </table>
+
+</br>
+
+
 </div>
 
 
 
 <script>
 var app = angular.module("myApp", []);
+
 app.controller("myCtrl", function($scope) {
-  $scope.dage  = ["Monday", "Tuesday", "Wedensday", "Tursday", "Friday", "Suterday", "Sunday"];
+  $scope.dage  = ["Sunday", "Monday", "Tuesday", "Wedensday", "Tursday", "Friday", "Suterday"];
   $scope.moduler = ["mave",
                     "bryst",
                     "lår",
@@ -46,7 +51,13 @@ app.controller("myCtrl", function($scope) {
                     "ryg",
                     "boks",
                     "løb"];
+
   $scope.today = new Date();
+
+  $scope.idag = function(dag){
+    let d = new Date();
+    return dag == $scope.dage[d.getDay()]? "lightgreen" : "lightblue";
+  }
 
 });
 </script>
