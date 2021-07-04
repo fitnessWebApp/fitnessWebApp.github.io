@@ -6,28 +6,46 @@
 <div ng-app="myApp" ng-controller="myCtrl">
 
 
-<header >DATO IDAG: {{ today | date }}</header>
+<h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
 
 
-  <table border="1">
+  <table border="1" style="width:100%">
     <tr>
       <th data-ng-repeat="dag in dage">{{dag}}</th>
     </tr>
-
-
     <tr data-ng-repeat="modul in moduler">
-
       <td data-ng-repeat="dag in dage">{{modul}}</td>
     </tr>
   </table>
+
+
+  <br/>
+
+  <table border="1">
+    <tr>
+      <th>I DAG:</th>
+      <th>Valg:</th>
+    </tr>
+    <tr data-ng-repeat="modul in moduler">
+      <td></td>
+      <td >{{modul}}</td>
+    </tr>
+  </table>
 </div>
+
 
 
 <script>
 var app = angular.module("myApp", []);
 app.controller("myCtrl", function($scope) {
   $scope.dage  = ["man", "tir", "ons", "tor", "fre", "lør", "søn"];
-  $scope.moduler = ["mave 10 minutter ", "bryst 30 kg, fri vægt", "lår, launches 20 kg", "roning 5 km ", "ryg", "boksning ", "løb, 3 km"];
+  $scope.moduler = ["mave",
+                    "bryst",
+                    "lår",
+                    "ro",
+                    "ryg",
+                    "boks",
+                    "løb"];
   $scope.today = new Date();
 
 });
