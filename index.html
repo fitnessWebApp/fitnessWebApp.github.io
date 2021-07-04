@@ -23,18 +23,28 @@
 
   <!--TRÆNINGS VALG -->
 
+
   <table border="1">
     <tr>
       <th>I DAG (tryk for at slette træning):</th>
       <th>Valg (tryk på valgt træning):</th>
     </tr>
+
     <tr data-ng-repeat="modul in moduler">
-      <td><span ng-click="sletValg($index)">{{valg[$index]}}</span></td>
-      <td ><span ng-click="addValg(modul,$index)">{{modul}}</span></td>
+      <td ng-click="sletValg($index)"><span >{{valg[$index]}}</span></td>
+      <td ng-click="addValg(modul,$index)" ><span >{{modul}}</span></td>
     </tr>
+
+    <tr>
+      <td colspan=2 align="right" style="background-color:grey">
+        <input ng-model="addMe">
+        <button ng-click="addItem()">Add</button>
+      </td>
+    </tr>
+
   </table>
 
-</br>
+
 
 
 </div>
@@ -48,7 +58,7 @@ app.controller("myCtrl", function($scope) {
 
   $scope.dage  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  $scope.moduler = ["mave","bryst","lår","ro","ryg","boks","løb"];
+  $scope.moduler = ["mave - 10min","bryst","lår","ro","ryg","boks","løb"];
 
   $scope.valg = [];
 
