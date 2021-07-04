@@ -6,6 +6,9 @@
 <div ng-app="myApp" ng-controller="myCtrl">
 
 
+<header >DATO IDAG: {{ today | date }}</header>
+
+
   <table border="1">
     <tr>
       <th data-ng-repeat="dag in dage">{{dag}}</th>
@@ -24,7 +27,9 @@
 var app = angular.module("myApp", []);
 app.controller("myCtrl", function($scope) {
   $scope.dage  = ["man", "tir", "ons", "tor", "fre", "lør", "søn"];
-  $scope.moduler = ["mav", "bry", "lår", "ro ", "ryg", "bok", "løb"];
+  $scope.moduler = ["mave 10 minutter ", "bryst 30 kg, fri vægt", "lår, launches 20 kg", "roning 5 km ", "ryg", "boksning ", "løb, 3 km"];
+  $scope.today = new Date();
+
 });
 </script>
 
