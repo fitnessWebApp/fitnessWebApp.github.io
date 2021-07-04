@@ -8,7 +8,7 @@
 
 <h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
 
-
+<!--UGE OVERSIGT -->
   <table border="1" style="width:100%">
     <tr>
       <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
@@ -21,14 +21,16 @@
 
   <br/>
 
+  <!--TRÆNINGS VALG -->
+
   <table border="1">
     <tr>
-      <th>I DAG:</th>
-      <th>Valg:</th>
+      <th>I DAG (tryk for at slette træning):</th>
+      <th>Valg (tryk på valgt træning):</th>
     </tr>
     <tr data-ng-repeat="modul in moduler">
-      <td></td>
-      <td >{{modul}}</td>
+      <td><span ng-click="sletValg($index)">{{valg[$index]}}</span></td>
+      <td ><span ng-click="addValg(modul,$index)">{{modul}}</span></td>
     </tr>
   </table>
 
@@ -43,20 +45,28 @@
 var app = angular.module("myApp", []);
 
 app.controller("myCtrl", function($scope) {
+
   $scope.dage  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  $scope.moduler = ["mave",
-                    "bryst",
-                    "lår",
-                    "ro",
-                    "ryg",
-                    "boks",
-                    "løb"];
+
+  $scope.moduler = ["mave","bryst","lår","ro","ryg","boks","løb"];
+
+  $scope.valg = [];
 
   $scope.today = new Date();
 
   $scope.idag = function(dag){
     let d = new Date();
     return dag == $scope.dage[d.getDay()]? "lightgreen" : "lightblue";
+  }
+
+
+
+  $scope.addValg = function(valg,index){
+    $scope.valg[index]=valg;
+  }
+
+  $scope.sletValg= function(index){
+    $scope.valg[index]="";
   }
 
 });
