@@ -132,9 +132,7 @@
 
 
       firebase.database().ref("moder").once('value').then(function(data) {
-        //når data er hentet skriver vi lidt tekst i konsollen
-        console.log("morsPlacering er :" + data.val().navn);
-
+        //henter fra firebase - og viser med det vuns!!
         var scope = angular.element(document.getElementById('jj')).scope();
         scope.bruger =  firebase.auth().currentUser.email;
         scope.$apply();
@@ -151,10 +149,32 @@
 
       $scope.addValg = function(valg, index) {
         $scope.valg[index] = valg;
+
+        var month = $scope.today.getUTCMonth() + 1; //months from 1-12
+        var day = $scope.today.getUTCDate();
+        var year = $scope.today.getUTCFullYear();
+
+        firebase.database().ref(day + "-" + month + "-" + year).update({
+          [valg]: "x"
+        });
+
       }
 
       $scope.sletValg = function(index) {
+        valg = $scope.valg[index];
+
+        var month = $scope.today.getUTCMonth() + 1; //months from 1-12
+        var day = $scope.today.getUTCDate();
+        var year = $scope.today.getUTCFullYear();
+
+        firebase.database().ref(day + "-" + month + "-" + year).update({
+          [valg]: ""
+        });
+
         $scope.valg[index] = "";
+
+
+
       }
 
 
