@@ -28,11 +28,9 @@
 
     <!--UGE OVERSIGT  -->
     <table border="1" style="width:100%">
-      <tr>
-        <th style="background-color:{{idag(dag)}}" data-ng-repeat="dag in dage">{{dag}}</th>
-      </tr>
-      <tr data-ng-repeat="modul in moduler">
-        <td data-ng-repeat="dag in dage">{{modul}}</td>
+      <tr data-ng-repeat="dag in dage">
+        <th style="background-color:{{idag(dag)}}">{{dag}}</th>
+        <td data-ng-repeat="modul in moduler">{{modul}}</td>
       </tr>
     </table>
 
@@ -93,7 +91,7 @@
     ui.start('#firebaseui-auth-container', {
       // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
       signInFlow: 'popup',
-      signInSuccessUrl: 'https://fitnesswebapp.github.io/',
+      signInSuccessUrl: 'http://0.0.0.0:8000/', // 'https://fitnesswebapp.github.io/',
       signInOptions: [
         // List of OAuth providers supported.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
