@@ -11,45 +11,20 @@
 
 
 <script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyBNf-nV7NMvllv8g2gRdQczUAglltmbx7I",
-    authDomain: "fitnesswebapp-76ab8.firebaseapp.com",
-    databaseURL: "https://fitnesswebapp-76ab8-default-rtdb.firebaseio.com",
-    projectId: "fitnesswebapp-76ab8",
-    storageBucket: "fitnesswebapp-76ab8.appspot.com",
-    messagingSenderId: "901944231738",
-    appId: "1:901944231738:web:8e61d151d9eec8cc373203"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  // Initialize the FirebaseUI Widget using Firebase.
-  var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-  ui.start('#firebaseui-auth-container', {
-    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-    signInFlow: 'popup',
-    signInSuccessUrl: 'https://fitnesswebapp.github.io/',
-    signInOptions: [
-      // List of OAuth providers supported.
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-  });
 </script>
 
 
 
-<body>
+<body id="jsn">
 
 
   <!-- Her starter angular js div............................................................... -->
 
-  <div ng-app="myApp" ng-controller="myCtrl">
+  <div id="jj" ng-app="myApp" ng-controller="myCtrl">
 
     <div id="firebaseui-auth-container"> </div>
 
-    <h1>{{ today | date : "EEEE, MMMM d, y"}}</h1>
+    <h1>{{ today | date : "EEEE, MMMM d, y"}} - Velkommen {{bruger}} </h1>
 
     <!--UGE OVERSIGT  -->
     <table border="1" style="width:100%">
@@ -99,15 +74,73 @@
   <script>
     var app = angular.module("myApp", []);
 
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBNf-nV7NMvllv8g2gRdQczUAglltmbx7I",
+      authDomain: "fitnesswebapp-76ab8.firebaseapp.com",
+      databaseURL: "https://fitnesswebapp-76ab8-default-rtdb.firebaseio.com",
+      projectId: "fitnesswebapp-76ab8",
+      storageBucket: "fitnesswebapp-76ab8.appspot.com",
+      messagingSenderId: "901944231738",
+      appId: "1:901944231738:web:8e61d151d9eec8cc373203"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    ui.start('#firebaseui-auth-container', {
+      // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+      signInFlow: 'popup',
+      signInSuccessUrl: 'https://fitnesswebapp.github.io/',
+      signInOptions: [
+        // List of OAuth providers supported.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      ],
+    });
+
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      console.log("hej" + firebase.auth().currentUser.email);
+      app.value("bruger", firebase.auth().currentUser.email);
+      app = angular.module("myApp", []);
+
+    });
+
+
+    var ss;
+
+
+
+
+
     app.controller("myCtrl", function($scope) {
 
-      $scope.dage = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      $scope.setupfb = function(name) {
+
+      }
+
+
+      $scope.dage = [firebase.appId, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
       $scope.moduler = ["mave - 10min", "bryst", "lår", "ro", "ryg", "boks", "løb"];
 
       $scope.valg = [];
 
       $scope.today = new Date();
+
+
+      firebase.database().ref("moder").once('value').then(function(data) {
+        //når data er hentet skriver vi lidt tekst i konsollen
+        console.log("morsPlacering er :" + data.val().navn);
+
+        var scope = angular.element(document.getElementById('jj')).scope();
+        scope.bruger =  firebase.auth().currentUser.email;
+        scope.$apply();
+      });
+
+
 
       $scope.idag = function(dag) {
         let d = new Date();
@@ -123,6 +156,9 @@
       $scope.sletValg = function(index) {
         $scope.valg[index] = "";
       }
+
+
+
 
     });
   </script>
