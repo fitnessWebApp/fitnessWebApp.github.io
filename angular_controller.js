@@ -25,6 +25,15 @@
 
     $scope.today = new Date();
 
+    $scope.completed = function(valgtAktivitet,aktiviteter){
+      for(var i=0; i <= aktiviteter.length ; i++){
+        if(valgtAktivitet == aktiviteter[i]) return "green";
+      }
+      return "grey"; 
+
+    }
+
+
     $scope.idag = function (dag) {
       let d = new Date();
       
@@ -46,11 +55,12 @@
       var day = $scope.today.getUTCDate();
       var year = $scope.today.getUTCFullYear();
 
+      var a = ["a","b"];
       firebase
         .database()
         .ref(day + "-" + month + "-" + year)
         .update({
-          [valg]: "x",
+          [valg]: a,
         });
     };
 
