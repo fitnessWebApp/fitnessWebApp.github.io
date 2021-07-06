@@ -17,13 +17,13 @@
   <div id="jj" ng-app="myApp" ng-controller="myCtrl">
     <div id="firebaseui-auth-container"></div>
 
-    <h1>{{ today | date : "EEEE, MMMM d, y"}} - Velkommen {{bruger}}</h1>
+    <h1>{{ today | date : "EEEE d-M-y"}} - Velkommen {{bruger}}</h1>
 
     <!--UGE OVERSIGT  -->
     <table border="1" style="width: 100%">
-      <tr data-ng-repeat="dag in dage">
-        <th style="background-color:{{idag(dag)}}">{{dag}}</th>
-        <td data-ng-repeat="modul in moduler">{{modul}}</td>
+      <tr data-ng-repeat="dag_obj in dagsliste">
+        <th style="background-color:{{idag(dag_obj.dag)}}">{{dag_obj.dag}}</th>
+        <td data-ng-repeat="modul in dag_obj.aktiviteter">{{modul}}</td>
       </tr>
     </table>
 
@@ -87,6 +87,12 @@
       var scope = angular.element(document.getElementById("jj")).scope();
       scope.bruger = firebase.auth().currentUser.email;
 
+      scope.dagsliste     = [];
+      scope.dagsliste[0] = {dag:"3-7-2021", aktiviteter:["boks","run","hop","arm","mave"]};
+      scope.dagsliste[1] = {dag:"4-7-2021", aktiviteter:["boks1","run","hop","arm","mave"]};
+      scope.dagsliste[2] = {dag:"5-7-2021", aktiviteter:["boks","run1","hop","arm","mave"]};
+      scope.dagsliste[3] = {dag:"6-7-2021", aktiviteter:["boks","run","hop1","arm","mave"]};
+
       /*
       firebase.database().ref('/').limitToLast(10).once('value', (snapshot) => {
 snapshot.forEach((childSnapshot) => {
@@ -130,7 +136,16 @@ snapshot.forEach((childSnapshot) => {
 
       $scope.idag = function (dag) {
         let d = new Date();
-        return dag == $scope.dage[d.getDay()] ? "lightgreen" : "lightblue";
+        
+        var month = $scope.today.getUTCMonth() + 1; //months from 1-12
+        var day = $scope.today.getUTCDate();
+        var year = $scope.today.getUTCFullYear();
+
+        var dagTekst = day+"-"+month+"-"+year;
+
+        console.log(dagTekst + " " + dag);
+
+        return dag == dagTekst? "lightgreen" : "lightblue";
       };
 
       $scope.addValg = function (valg, index) {
