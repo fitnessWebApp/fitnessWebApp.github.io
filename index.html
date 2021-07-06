@@ -9,36 +9,27 @@
 
 <!-- Connect til firebase database................................................................ -->
 
-
-<script>
-</script>
-
-
+<script></script>
 
 <body id="jsn">
-
-
   <!-- Her starter angular js div............................................................... -->
 
   <div id="jj" ng-app="myApp" ng-controller="myCtrl">
+    <div id="firebaseui-auth-container"></div>
 
-    <div id="firebaseui-auth-container"> </div>
-
-    <h1>{{ today | date : "EEEE, MMMM d, y"}} - Velkommen {{bruger}} </h1>
+    <h1>{{ today | date : "EEEE, MMMM d, y"}} - Velkommen {{bruger}}</h1>
 
     <!--UGE OVERSIGT  -->
-    <table border="1" style="width:100%">
+    <table border="1" style="width: 100%">
       <tr data-ng-repeat="dag in dage">
         <th style="background-color:{{idag(dag)}}">{{dag}}</th>
         <td data-ng-repeat="modul in moduler">{{modul}}</td>
       </tr>
     </table>
 
-
     <br />
 
     <!--TRÆNINGS VALG -->
-
 
     <table border="1">
       <tr>
@@ -52,22 +43,15 @@
       </tr>
 
       <tr>
-        <td colspan=2 align="right" style="background-color:grey">
-          <input ng-model="addMe">
+        <td colspan="2" align="right" style="background-color: grey">
+          <input ng-model="addMe" />
           <button ng-click="addItem()">Add</button>
         </td>
       </tr>
-
     </table>
-
-
-
-
   </div>
 
-
   <!--ANGULAR MODULE .........................................................................................-->
-
 
   <script>
     var app = angular.module("myApp", []);
@@ -80,7 +64,7 @@
       projectId: "fitnesswebapp-76ab8",
       storageBucket: "fitnesswebapp-76ab8.appspot.com",
       messagingSenderId: "901944231738",
-      appId: "1:901944231738:web:8e61d151d9eec8cc373203"
+      appId: "1:901944231738:web:8e61d151d9eec8cc373203",
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -88,100 +72,100 @@
     // Initialize the FirebaseUI Widget using Firebase.
     var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-    ui.start('#firebaseui-auth-container', {
+    ui.start("#firebaseui-auth-container", {
       // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-      signInFlow: 'popup',
-      signInSuccessUrl: 'http://0.0.0.0:8000/', // 'https://fitnesswebapp.github.io/',
+      signInFlow: "popup",
+      signInSuccessUrl: "http://0.0.0.0:8000/", // 'https://fitnesswebapp.github.io/',
       signInOptions: [
         // List of OAuth providers supported.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       ],
     });
 
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      console.log("hej" + firebase.auth().currentUser.email);
+    firebase.auth().onAuthStateChanged(function (user) {
       app.value("bruger", firebase.auth().currentUser.email);
-      app = angular.module("myApp", []);
+      var scope = angular.element(document.getElementById("jj")).scope();
+      scope.bruger = firebase.auth().currentUser.email;
 
+      /*
+      firebase.database().ref('/').limitToLast(10).once('value', (snapshot) => {
+snapshot.forEach((childSnapshot) => {
+  console.log(childSnapshot.key + " " + childSnapshot.val());
+  childSnapshot.forEach((ccSnap)=>{
+      console.log(ccSnap.key + " " + ccSnap.val());
+  });
+});
+});
+
+*/
+      scope.$apply();
     });
 
+    app.controller("myCtrl", function ($scope) {
+      $scope.setupfb = function (name) { };
 
-    var ss;
+      $scope.dage = [
+        firebase.appId,
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
 
-
-
-
-
-    app.controller("myCtrl", function($scope) {
-
-      $scope.setupfb = function(name) {
-
-      }
-
-
-      $scope.dage = [firebase.appId, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-      $scope.moduler = ["mave - 10min", "bryst", "lår", "ro", "ryg", "boks", "løb"];
+      $scope.moduler = [
+        "mave - 10min",
+        "bryst",
+        "lår",
+        "ro",
+        "ryg",
+        "boks",
+        "løb",
+      ];
 
       $scope.valg = [];
 
       $scope.today = new Date();
 
-
-      firebase.database().ref("moder").once('value').then(function(data) {
-        //henter fra firebase - og viser med det vuns!!
-        var scope = angular.element(document.getElementById('jj')).scope();
-        scope.bruger =  firebase.auth().currentUser.email;
-        scope.$apply();
-      });
-
-
-
-      $scope.idag = function(dag) {
+      $scope.idag = function (dag) {
         let d = new Date();
         return dag == $scope.dage[d.getDay()] ? "lightgreen" : "lightblue";
-      }
+      };
 
-
-
-      $scope.addValg = function(valg, index) {
+      $scope.addValg = function (valg, index) {
         $scope.valg[index] = valg;
 
         var month = $scope.today.getUTCMonth() + 1; //months from 1-12
         var day = $scope.today.getUTCDate();
         var year = $scope.today.getUTCFullYear();
 
-        firebase.database().ref(day + "-" + month + "-" + year).update({
-          [valg]: "x"
-        });
+        firebase
+          .database()
+          .ref(day + "-" + month + "-" + year)
+          .update({
+            [valg]: "x",
+          });
+      };
 
-      }
-
-      $scope.sletValg = function(index) {
+      $scope.sletValg = function (index) {
         valg = $scope.valg[index];
 
         var month = $scope.today.getUTCMonth() + 1; //months from 1-12
         var day = $scope.today.getUTCDate();
         var year = $scope.today.getUTCFullYear();
 
-        firebase.database().ref(day + "-" + month + "-" + year).update({
-          [valg]: ""
-        });
+        firebase
+          .database()
+          .ref(day + "-" + month + "-" + year)
+          .update({
+            [valg]: "",
+          });
 
         $scope.valg[index] = "";
-
-
-
-      }
-
-
-
-
+      };
     });
   </script>
-
-
 </body>
 
 </html>
