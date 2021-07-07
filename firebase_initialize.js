@@ -26,35 +26,61 @@
       });
   
       firebase.auth().onAuthStateChanged(function (user) {
+        
         app.value("bruger", firebase.auth().currentUser.email);
         var scope = angular.element(document.getElementById("jj")).scope();
         scope.bruger = firebase.auth().currentUser.email;
   
-        //HER HENTES LISTEN OVER DE DAGLIGE VALGTE AKTIVITETER
-        //TEST DATA
-        scope.dagsliste     = [];
-        scope.dagsliste[0] = {dag:"3-7-2021", aktiviteter:["boks","hop","mave"]};
-        scope.dagsliste[1] = {dag:"4-7-2021", aktiviteter:["boks1","run","hop","arm","mave"]};
-        scope.dagsliste[2] = {dag:"5-7-2021", aktiviteter:["hop","arm","mave"]};
-        scope.dagsliste[3] = {dag:"6-7-2021", aktiviteter:["boks","run","hop1","arm","mave"]};
-        
+        scope.$apply();
+
 
         //LISTEN OVER AKTIVITETER
         //TEST DATA
-        scope.aktivitetsliste = ["boks","run","hop1","arm","mave"];
-        
+        //scope.aktivitetsliste = ["boks","run","hop1","arm","mave"];
+        firebase.database().ref("aktiviteteslisten").once('value').then(function(data) {
+          scope.aktivitetslisten =[];
 
-        //TEST AF HENTBIBG AF DATA
+          for(var i=0;i <data.val().length ; i++){ 
+            scope.aktivitetslisten[i] = data.val()[i];
+          }
+
+         // console.log(scope.aktivitetslisten);
+
+          scope.$apply();
+          //når data er hentet skriver vi lidt tekst på skærmen
+          //text("morsPlacering er :" + data.val().placering, 10, 300);
+          //text("tidpunktet er :" + data.val().tid, 10, 325);
+        });
+              
+
+        //HER HENTES LISTEN OVER DE DAGLIGE VALGTE AKTIVITETE
+        //TEST AF HENTBIBG AF DATA      
         firebase.database().ref('/').limitToLast(10).once('value', (snapshot) => {
-  snapshot.forEach((childSnapshot) => {
-    console.log(childSnapshot.key + " " + childSnapshot.val());
-    childSnapshot.forEach((ccSnap)=>{
-        console.log(ccSnap.key + " " + ccSnap.val());
-    });
-  });
-  });
+          scope.dagsliste     = [];
+          
+          var dagData;
+          var aktivitetData=[];
+          var index = 0;
+          
+          snapshot.forEach((childSnapshot) => {
+              dagData       = childSnapshot.key;
+              aktivitetData = [];
+              
+              childSnapshot.forEach((ccSnap)=>{
+                for(var i=0;i <ccSnap.val().length ; i++){ 
+                  aktivitetData[i] = ccSnap.val()[i];
+                }
+              });
+
+              scope.dagsliste[index] = {dag: dagData, aktiviteter: aktivitetData};
+              index++;
+            });
+
+          scope.$apply();
+         // console.log(scope.dagliste);
+        });
+
   
   
-        scope.$apply();
       });
   

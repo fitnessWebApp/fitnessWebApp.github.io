@@ -23,7 +23,7 @@
     <table border="1" style="width: 100%">
       <tr data-ng-repeat="dag_obj in dagsliste">
         <th style="background-color:{{idag(dag_obj.dag)}}">{{dag_obj.dag}}</th>
-        <td style="background-color:{{completed(modul, dag_obj.aktiviteter)}}" data-ng-repeat="modul in aktivitetsliste">{{modul}}</td>
+        <td style="background-color:{{completed(modul, dag_obj.aktiviteter)}}" data-ng-repeat="modul in aktivitetslisten">{{modul}}</td>
       </tr>
     </table>
 

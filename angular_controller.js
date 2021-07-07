@@ -26,6 +26,7 @@
     $scope.today = new Date();
 
     $scope.completed = function(valgtAktivitet,aktiviteter){
+
       for(var i=0; i <= aktiviteter.length ; i++){
         if(valgtAktivitet == aktiviteter[i]) return "green";
       }
@@ -43,7 +44,7 @@
 
       var dagTekst = day+"-"+month+"-"+year;
 
-      console.log(dagTekst + " " + dag);
+      //console.log(dagTekst + " " + dag);
 
       return dag == dagTekst? "lightgreen" : "lightblue";
     };
