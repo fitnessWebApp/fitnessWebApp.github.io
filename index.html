@@ -23,7 +23,12 @@
     <table border="1" style="width: 100%">
       <tr data-ng-repeat="dag_obj in dagsliste">
         <th style="background-color:{{idag(dag_obj.dag)}}">{{dag_obj.dag}}</th>
-        <td style="background-color:{{completed(modul, dag_obj.aktiviteter)}}" data-ng-repeat="modul in aktivitetslisten">{{modul}}</td>
+        <td 
+        style="background-color:{{completed(modul, dag_obj.aktiviteter)}}" 
+        data-ng-repeat="modul in aktivitetslisten"
+        ng-click="valgtAktivitet(modul,dag_obj)">
+        {{modul}}
+      </td>
       </tr>
     </table>
 
@@ -38,8 +43,8 @@
       </tr>
 
       <tr data-ng-repeat="modul in moduler">
-        <td ng-click="sletValg($index)"><span>{{valg[$index]}}</span></td>
-        <td ng-click="addValg(modul,$index)"><span>{{modul}}</span></td>
+        <td ng-click="sletValg($index)">{{valg[$index]}}</td>
+        <td ng-click="addValg(modul,$index)">{{modul}}</span></td>
       </tr>
 
       <tr>

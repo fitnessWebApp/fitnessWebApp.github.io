@@ -25,6 +25,34 @@
 
     $scope.today = new Date();
 
+    $scope.valgtAktivitet = function(modul,dag_obj){
+      var valgt = false;
+
+        if(dag_obj.aktiviteter.includes(modul)){
+          var index = dag_obj.aktiviteter.indexOf(modul);
+          dag_obj.aktiviteter[index] = "";
+
+        }else{
+          dag_obj.aktiviteter.push(modul);
+        }
+
+
+      var month = $scope.today.getUTCMonth() + 1; //months from 1-12
+      var day = $scope.today.getUTCDate();
+      var year = $scope.today.getUTCFullYear();
+
+      firebase
+        .database()
+        .ref(dag_obj.dag)
+        .update({
+          "aktiviteter":dag_obj.aktiviteter
+        });
+ 
+
+        
+    }
+
+
     $scope.completed = function(valgtAktivitet,aktiviteter){
 
       for(var i=0; i <= aktiviteter.length ; i++){
