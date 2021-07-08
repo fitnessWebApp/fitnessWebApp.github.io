@@ -26,7 +26,24 @@
       });
   
       firebase.auth().onAuthStateChanged(function (user) {
-        
+  
+        var d = new Date();
+
+        var month = d.getUTCMonth() + 1; //months from 1-12
+        var day = d.getUTCDate();
+        var year = d.getUTCFullYear();
+  
+        var dagTekst = day+"-"+month+"-"+year;
+  
+        firebase.database().ref(dagTekst).on('value', (snapshot) => {
+          console.log(snapshot.val());
+          if(!snapshot.val()){
+            firebase.database().ref(dagTekst).update({"aktiviteter": [""]});
+
+            scope.$apply();
+          }
+        });
+
         app.value("bruger", firebase.auth().currentUser.email);
         var scope = angular.element(document.getElementById("jj")).scope();
         scope.bruger = firebase.auth().currentUser.email;
