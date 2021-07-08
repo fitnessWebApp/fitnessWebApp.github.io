@@ -1,5 +1,5 @@
   app.controller("myCtrl", function ($scope) {
-    $scope.setupfb = function (name) { };
+    /*$scope.setupfb = function (name) { };
 
     $scope.dage = [
       firebase.appId,
@@ -19,9 +19,9 @@
       "ryg",
       "boks",
       "løb",
-    ];
+    ];*/
 
-    $scope.valg = [];
+    //$scope.valg = [];
 
     $scope.today = new Date();
 
@@ -29,13 +29,13 @@
       var valgt = false;
 
         if(dag_obj.aktiviteter.includes(modul)){
+          
           var index = dag_obj.aktiviteter.indexOf(modul);
-          dag_obj.aktiviteter[index] = "";
+          dag_obj.aktiviteter.splice(index,1);
 
         }else{
           dag_obj.aktiviteter.push(modul);
         }
-
 
       var month = $scope.today.getUTCMonth() + 1; //months from 1-12
       var day = $scope.today.getUTCDate();
@@ -77,7 +77,7 @@
       return dag == dagTekst? "lightgreen" : "lightblue";
     };
 
-    $scope.addValg = function (valg, index) {
+    /*$scope.addValg = function (valg, index) {
       $scope.valg[index] = valg;
 
       var month = $scope.today.getUTCMonth() + 1; //months from 1-12
@@ -91,9 +91,9 @@
         .update({
           [valg]: a,
         });
-    };
+    };*/
 
-    $scope.sletValg = function (index) {
+    /*$scope.sletValg = function (index) {
       valg = $scope.valg[index];
 
       var month = $scope.today.getUTCMonth() + 1; //months from 1-12
@@ -108,5 +108,5 @@
         });
 
       $scope.valg[index] = "";
-    };
+    };*/
   });

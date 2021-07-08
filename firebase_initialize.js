@@ -55,26 +55,33 @@
 
         //HER HENTES LISTEN OVER DE DAGLIGE VALGTE AKTIVITETE
         //TEST AF HENTBIBG AF DATA      
+
         firebase.database().ref('/').limitToLast(10).once('value', (snapshot) => {
           scope.dagsliste     = [];
           
           var dagData;
           var aktivitetData=[];
           var index = 0;
-          
-          snapshot.forEach((childSnapshot) => {
-              dagData       = childSnapshot.key;
-              aktivitetData = [];
-              
-              childSnapshot.forEach((ccSnap)=>{
-                for(var i=0;i <ccSnap.val().length ; i++){ 
-                  aktivitetData[i] = ccSnap.val()[i];
-                }
-              });
 
-              scope.dagsliste[index] = {dag: dagData, aktiviteter: aktivitetData};
-              index++;
-            });
+            snapshot.forEach((childSnapshot) => {
+
+                if(childSnapshot.key != "aktiviteteslisten"){
+                  
+                  dagData       = childSnapshot.key;
+                  aktivitetData = [];
+                
+                  childSnapshot.forEach((ccSnap)=>{
+                    for(var i=0;i <ccSnap.val().length ; i++){ 
+                      aktivitetData[i] = ccSnap.val()[i];
+                    }
+                  });
+
+                  scope.dagsliste[index] = {dag: dagData, aktiviteter: aktivitetData};
+                  index++;
+
+                }
+
+              });
 
           scope.$apply();
          // console.log(scope.dagliste);

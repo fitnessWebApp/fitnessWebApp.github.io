@@ -34,26 +34,6 @@
 
     <br />
 
-    <!--TRÆNINGS VALG -->
-
-    <table border="1">
-      <tr>
-        <th>I DAG (tryk for at slette træning):</th>
-        <th>Valg (tryk på valgt træning):</th>
-      </tr>
-
-      <tr data-ng-repeat="modul in moduler">
-        <td ng-click="sletValg($index)">{{valg[$index]}}</td>
-        <td ng-click="addValg(modul,$index)">{{modul}}</span></td>
-      </tr>
-
-      <tr>
-        <td colspan="2" align="right" style="background-color: grey">
-          <input ng-model="addMe" />
-          <button ng-click="addItem()">Add</button>
-        </td>
-      </tr>
-    </table>
   </div>
 
   <!--ANGULAR MODULE .........................................................................................-->
