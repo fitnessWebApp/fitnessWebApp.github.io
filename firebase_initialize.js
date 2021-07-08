@@ -18,7 +18,7 @@
       ui.start("#firebaseui-auth-container", {
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
         signInFlow: "popup",
-        signInSuccessUrl: "http://0.0.0.0:8000/", // 'https://fitnesswebapp.github.io/',
+        signInSuccessUrl: "https://fitnesswebapp.github.io/",
         signInOptions: [
           // List of OAuth providers supported.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
