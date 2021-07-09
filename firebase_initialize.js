@@ -38,19 +38,28 @@
         firebase.database().ref(dagTekst).on('value', (snapshot) => {
           console.log(snapshot.val());
           if(!snapshot.val()){
-            firebase.database().ref(dagTekst).update({"aktiviteter": [""]});
+            firebase.database().ref(dagTekst).update({"aktiviteter": [""]},
+              function(err){
 
-            scope.$apply();
+                opretOversigterne();
+              }
+            );
+
+          }else{
+            opretOversigterne();
           }
         });
 
-        app.value("bruger", firebase.auth().currentUser.email);
-        var scope = angular.element(document.getElementById("jj")).scope();
-        scope.bruger = firebase.auth().currentUser.email;
+      });
+
+        function opretOversigterne(){
+
+          app.value("bruger", firebase.auth().currentUser.email);
+          var scope = angular.element(document.getElementById("jj")).scope();
+          scope.bruger = firebase.auth().currentUser.email;
   
-        scope.$apply();
 
-
+          console.log("Hej");
         //LISTEN OVER AKTIVITETER
         //TEST DATA
         //scope.aktivitetsliste = ["boks","run","hop1","arm","mave"];
@@ -104,7 +113,7 @@
          // console.log(scope.dagliste);
         });
 
+      }  
   
-  
-      });
+    
   

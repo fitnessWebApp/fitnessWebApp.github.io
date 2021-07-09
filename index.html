@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="en-US">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="firebase-ui-auth.css" />
-<script src="firebase.js"></script>
-<script src="firebase-auth.js"></script>
-<script src="firebase-database.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="firebase-ui-auth.css" />
+  <script src="firebase.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="firebase-database.js"></script>
 
-<!-- Connect til firebase database................................................................ -->
+  <!-- Connect til firebase database................................................................ -->
 
-<script></script>
+  <script></script>
 
-<body id="jsn">
-  <!-- Her starter angular js div............................................................... -->
+  <body id="jsn">
+    <!-- Her starter angular js div............................................................... -->
 
-  <div id="jj" ng-app="myApp" ng-controller="myCtrl">
-    <div id="firebaseui-auth-container"></div>
+    <div id="jj" ng-app="myApp" ng-controller="myCtrl">
+      <div id="firebaseui-auth-container"></div>
 
-    <h1>{{ today | date : "EEEE d-M-y"}} - Velkommen {{bruger}}</h1>
+      <h1>{{ today | date : "EEEE d-M-y"}} - Velkommen {{bruger}}</h1>
 
-    <!--UGE OVERSIGT  -->
-    <table border="1" style="width: 100%">
-      <tr data-ng-repeat="dag_obj in dagsliste">
-        <th style="background-color:{{idag(dag_obj.dag)}}">{{dag_obj.dag}}</th>
-        <td 
-        style="background-color:{{completed(modul, dag_obj.aktiviteter)}}" 
-        data-ng-repeat="modul in aktivitetslisten"
-        ng-click="valgtAktivitet(modul,dag_obj)">
-        {{modul}}
-      </td>
-      </tr>
-    </table>
+      <!--UGE OVERSIGT  -->
+      <table border="1" style="width: 100%">
+        <tr data-ng-repeat="dag_obj in dagsliste">
+          <th style="background-color:{{idag(dag_obj.dag)}}">
+            {{dag_obj.dag}}
+          </th>
+          <td
+            style="background-color:{{completed(modul, dag_obj.aktiviteter)}}"
+            data-ng-repeat="modul in aktivitetslisten"
+            ng-click="valgtAktivitet(modul,dag_obj)"
+          >
+            {{modul}}
+          </td>
+        </tr>
+      </table>
 
-    <br />
+      <!-- AKTIVITETER LISTE -->
 
-  </div>
+      <table border="1" style="width: 100%">
+        <tr>
+          <th>aktiviteter:</th>
+          <td data-ng-repeat="modul in aktivitetslisten">{{modul}}</td>
+        </tr>
+      </table>
+    </div>
 
-  <!--ANGULAR MODULE .........................................................................................-->
+    <!--ANGULAR MODULE .........................................................................................-->
 
-  <script>
-    var app = angular.module("myApp", []);
-</script>
+    <script>
+      var app = angular.module("myApp", []);
+    </script>
 
-<script type="text/javascript" src="firebase_initialize.js"></script>
-<script type="text/javascript" src="angular_controller.js"></script>
-
-  
-</body>
-
-
-
+    <script type="text/javascript" src="firebase_initialize.js"></script>
+    <script type="text/javascript" src="angular_controller.js"></script>
+  </body>
 </html>
